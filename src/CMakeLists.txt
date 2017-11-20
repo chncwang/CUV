@@ -1,6 +1,8 @@
 cmake_minimum_required( VERSION 2.6 FATAL_ERROR )
 
-OPTION(CUV_PYTHON_BINDINGS "Whether shared version of CUDA is to be used, must be true for python bindings!" ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_FORCE_INLINES")
+
+OPTION(CUV_PYTHON_BINDINGS "Whether shared version of CUDA is to be used, must be true for python bindings!" OFF)
 OPTION(CUV_CIMG_BINDINGS "Whether to compile with CImg" ON)
 IF(CUV_PYTHON_BINDINGS)
 #	use this for python bindings. However, We need to recompile CUDA for this on every computer!
@@ -22,7 +24,7 @@ if (CUDA_ENFORCE_HOST_COMPILER)
 endif()
 
 if ( NOT CUDA_ARCH )
-    SET( CUDA_ARCH -gencode;arch=compute_13,code=sm_13;-gencode;arch=compute_20,code=sm_20;-gencode;arch=compute_30,code=sm_30;-gencode;arch=compute_35,code=sm_35  CACHE STRING "Device architectures")
+    SET( CUDA_ARCH -gencode;arch=compute_20,code=sm_20;-gencode;arch=compute_30,code=sm_30;-gencode;arch=compute_35,code=sm_35  CACHE STRING "Device architectures")
     #SET( CUDA_ARCH -gencode;arch=compute_20,code=\"sm_20,compute_20\";-gencode;arch=compute_30,code=\"sm_30,compute_30\";-gencode;arch=compute_35,code=\"sm_35,compute_35\" )
 endif()
 
