@@ -4,8 +4,6 @@
 #undef _POSIX_C_SOURCE
 #undef _XOPEN_SOURCE
 
-#include <Python.h>
-#include <numpy/arrayobject.h>
 #include <stdio.h>
 #include <cublas.h>
 

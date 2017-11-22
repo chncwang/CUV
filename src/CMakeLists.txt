@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 2.6 FATAL_ERROR )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_FORCE_INLINES")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-D_FORCE_INLINES -std=c++11 -fopenmp -DNDEBUG -O2 -ffast-math -D_MWAITXINTRIN_H_INCLUDED -D__STRICT_ANSI__")
 
 OPTION(CUV_PYTHON_BINDINGS "Whether shared version of CUDA is to be used, must be true for python bindings!" OFF)
 OPTION(CUV_CIMG_BINDINGS "Whether to compile with CImg" ON)
@@ -9,10 +9,10 @@ IF(CUV_PYTHON_BINDINGS)
 	SET(CMAKE_CXX_FLAGS "-fPIC") # for FindCUDA, needed for python shared lib
 ENDIF(CUV_PYTHON_BINDINGS)
 
-SET (CUDA_SDK_ROOT_DIR "/usr/local/cuda/C" CACHE STRING "Location of CUDA SDK (currently not used) ") 
+SET (CUDA_SDK_ROOT_DIR "/usr/local/cuda/samples" CACHE STRING "Location of CUDA SDK (currently not used) ") 
 
 FIND_PACKAGE(CUDA)
-#SET (CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -arch=sm_21")
+SET (CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -std=c++11)
 
 option (CUDA_ENFORCE_HOST_COMPILER "Force nvcc to use the same compiler used to compile .c(pp) files insted of gcc/g++" ON)
 if (CUDA_ENFORCE_HOST_COMPILER)
@@ -40,6 +40,7 @@ FIND_PACKAGE( Boost 1.37 COMPONENTS date_time unit_test_framework serialization 
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
+
 FIND_PATH(THRUST_PATH thrust/device_vector.h /usr/include /usr/local/include ${CUDA_INCLUDE_DIRS} "$ENV{THRUST_ROOT}")
 IF(NOT THRUST_PATH)
 	MESSAGE(FATAL_ERROR "Could not find the thrust library. Please install in standard locations or set THRUST_ROOT environment variable.")
@@ -50,7 +51,8 @@ SET(CUDA_ARCHITECTURE "" CACHE STRING "The CUDA architecture to compile for, i.e
 SET(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS};${CUDA_ARCHITECTURE}")
 MESSAGE(STATUS "CUDA_NVCC_FLAGS: ${CUDA_NVCC_FLAGS}")
 
-CUDA_INCLUDE_DIRECTORIES( ${CUDA_SDK_ROOT_DIR}/common/inc ${CMAKE_CURRENT_SOURCE_DIR}  tools )
+SET(CUDA_INCLUDE_DIRECTORIES /usr/local/cuda/include)
+CUDA_INCLUDE_DIRECTORIES( ${CUDA_SDK_ROOT_DIR}/common/inc ${CMAKE_CURRENT_SOURCE_DIR}  tools ${CUDA_INCLUDE_DIRECTORIES} )
 INCLUDE_DIRECTORIES(      ${CUDA_SDK_ROOT_DIR}/common/inc ${CUDA_INCLUDE_DIRS}         tools )
 CUDA_INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR}                                )
 INCLUDE_DIRECTORIES(      ${CMAKE_CURRENT_SOURCE_DIR}                                )

@@ -15,3 +15,5 @@ src/types_py.vim
 # src/cuv/tensor_ops/instantiations
 *.pyc
 *~
+CMakeCache.txt
+CMakeFiles
