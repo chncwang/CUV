@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 2.6 FATAL_ERROR )
 
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-D_FORCE_INLINES -std=c++11 -fopenmp -DNDEBUG -O2 -ffast-math -D_MWAITXINTRIN_H_INCLUDED -D__STRICT_ANSI__")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-D_FORCE_INLINES -fopenmp -DNDEBUG -O2 -ffast-math -D_MWAITXINTRIN_H_INCLUDED -D__STRICT_ANSI__")
 
 OPTION(CUV_PYTHON_BINDINGS "Whether shared version of CUDA is to be used, must be true for python bindings!" OFF)
 OPTION(CUV_CIMG_BINDINGS "Whether to compile with CImg" ON)
@@ -12,7 +12,7 @@ ENDIF(CUV_PYTHON_BINDINGS)
 SET (CUDA_SDK_ROOT_DIR "/usr/local/cuda/samples" CACHE STRING "Location of CUDA SDK (currently not used) ") 
 
 FIND_PACKAGE(CUDA)
-SET (CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -std=c++11)
+SET (CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS})
 
 option (CUDA_ENFORCE_HOST_COMPILER "Force nvcc to use the same compiler used to compile .c(pp) files insted of gcc/g++" ON)
 if (CUDA_ENFORCE_HOST_COMPILER)

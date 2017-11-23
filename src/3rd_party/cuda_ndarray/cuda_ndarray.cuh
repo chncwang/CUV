@@ -6,6 +6,8 @@
 
 #include <stdio.h>
 #include <cublas.h>
+#include <Python.h>
+#include <numpy/arrayobject.h>
 
 #ifdef _WIN32
 #ifdef _CUDA_NDARRAY_C
